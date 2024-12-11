@@ -307,6 +307,60 @@ str1 <span class="token operator">=</span> str2 值为<span class="token number"
  
 	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
+</code></pre><ul>
+<li>精简版</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span><span class="token operator">*</span> str<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span><span class="token operator">*</span> sub<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>str <span class="token operator">||</span> <span class="token operator">!</span>sub <span class="token operator">||</span> <span class="token operator">*</span>sub <span class="token operator">==</span> <span class="token char">'\0'</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> i <span class="token operator">-=</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>str<span class="token punctuation">[</span>i <span class="token operator">+</span> j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> sub<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> str<span class="token punctuation">[</span>i <span class="token operator">+</span> j<span class="token punctuation">]</span> <span class="token operator">==</span> sub<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> j<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sub<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> i<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"abcd"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 预期返回下标5</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"abcds"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 返回-1</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"ab"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 返回下标0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><ul>
+<li>个人喜好</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span>s<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>t<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> start<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> t<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token char">'\0'</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> i<span class="token punctuation">,</span> j<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> start<span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> t<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> t<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span>
+            j<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+            i <span class="token operator">=</span> i <span class="token operator">-</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>t<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 子串遍历结束，匹配成功</span>
+            <span class="token keyword keyword-return">return</span> i <span class="token operator">-</span> j<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 主串遍历结束，匹配失败</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"abcd"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 预期返回下标5</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"abcds"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 返回-1</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">BF</span><span class="token punctuation">(</span><span class="token string">"ababcabcdabcde"</span><span class="token punctuation">,</span> <span class="token string">"ab"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 返回下标0</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre><p><mark>BF算法缺点：有大量匹配无效，效率低。</mark></p>
 <h3 id="kmp算法">KMP算法 </h3>
 <blockquote>
@@ -333,7 +387,266 @@ str1 <span class="token operator">=</span> str2 值为<span class="token number"
 		<span class="token punctuation">}</span>
 	<span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre>
+</code></pre><h3 id="bm算法">BM算法 </h3>
+<h2 id="二维数组">二维数组 </h2>
+<blockquote>
+<p>声明： 类型  数组名[行数][列数]<br>
+可以把a[0],a[1],a[2]看做3个一维数组的名字，且是3个行元素，即a[0],a[1],a[2]是一维数组名，这一点对于后面二维数组元素的引用很重要</p>
+</blockquote>
+<h3 id="二维数组初始化">二维数组初始化 </h3>
+<p>1.完全初始化</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code>	<span class="token keyword keyword-int">int</span> arr1<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span>
+	                  <span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> arr2<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+		               <span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><p>2.不完全初始化<br>
+其它成员默认 0</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code>    <span class="token keyword keyword-int">int</span> arr3<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> arr4<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+					   <span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><p><mark>需要注意的是二维数组在初始化成员个数时列数不能省略，但是会根据列数自动决定行数。</mark></p>
+<h3 id="二维数组元素的地址">二维数组元素的地址 </h3>
+<blockquote>
+<p>*(a+i) = a[i] = 第 i 个元素的值<br>
+<mark>一维数组名 代表的是 一维数组首元素的地址。</mark><br>
+1.a[0]代表一维数组a[0]中第0列的地址，即&amp;a[0][0]。 （这里一定要反复琢磨是指向列的）<br>
+同理，a[1]的值是(第一行)第0列的地址，即&amp;a[1][0]。<br>
+2.a[i]+j 就是 a[i][j]的地址。<mark>注意：是地址，而不是元素的值</mark><br>
+3.&amp; 取地址运算符， * 指针运算符（或称“间接访问运算符”），如 *p代表p指向的对象。<br>
+得到地址取值的方法就是加一个“ * ”。<br>
+因此， *(a[i]+j) 或者 <em>(</em>(a+i)+j)是a[i][j]的值，或说 *(a[i]+j) =  <em>(</em>(a+i)+j) = a[i][j] 。</p>
+</blockquote>
+<h3 id="通过数组指针引用二维数组">通过数组指针引用二维数组 </h3>
+<p>指向数组的指针变量，就是 数组指针</p>
+<p>定义方式例如：    int (*p)[4];</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">11</span><span class="token punctuation">,</span><span class="token number">13</span><span class="token punctuation">,</span><span class="token number">15</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token number">17</span><span class="token punctuation">,</span><span class="token number">19</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">,</span><span class="token number">23</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"数组指针引用方式1：%d\n"</span><span class="token punctuation">,</span>p<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"数组指针引用方式2：%d\n"</span><span class="token punctuation">,</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="通过指针数组引用二维数组">通过指针数组引用二维数组 </h3>
+<p>一个数组，若其元素均为指针类型数据，则成为 指针数组</p>
+<p>也就是说，指针数组中的每一个元素都是存放一个地址。</p>
+<p>定义样例：  int *p[3];<br>
+注意：这里就不用()了，[ ]优先级比 * 高。因此p先与[3]结合为p[3] ，表示是一个数组。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">11</span><span class="token punctuation">,</span><span class="token number">13</span><span class="token punctuation">,</span><span class="token number">15</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token number">17</span><span class="token punctuation">,</span><span class="token number">19</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">,</span><span class="token number">23</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> <span class="token operator">*</span>p<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	p<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> p<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> p<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>p<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//错误写法</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span><span class="token operator">*</span><span class="token punctuation">(</span>p<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//正确写法</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</code></pre><h2 id="动态分配内存">动态分配内存 </h2>
+<h3 id="概述">概述 </h3>
+<p>在实际的编程中，往往会发生这种情况，即所需的内存空间取决于实际输入的数据，而无法预先确定 。为了解决上述问题，Ｃ语言提供了一些内存管理函数，这些内存管理函数可以按需要动态的分配内存空间，也可把不再使用的空间回收再次利用。<br>
+<mark>动态分配内存就是在堆区开辟空间。</mark></p>
+<h3 id="静态分配-动态分配">静态分配、动态分配 </h3>
+<p>静态分配</p>
+<p>1、 在程序编译或运行过程中，按事先规定大小分配内存空间的分配方式。int a [10]</p>
+<p>2、 必须事先知道所需空间的大小。</p>
+<p>3、 分配在栈区或全局变量区，一般以数组的形式。</p>
+<p>4、 按计划分配。</p>
+<p>动态分配</p>
+<p>1、在程序运行过程中，根据需要大小自由分配所需空间。</p>
+<p>2、按需分配。</p>
+<p>3、分配在堆区，一般使用特定的函数进行分配。</p>
+<h3 id="动态分配函数">动态分配函数 </h3>
+<h4 id="malloc">malloc </h4>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token operator">*</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+功能：在堆区开辟指定长度的空间，并且空间是连续的
+参数：
+size：要开辟的空间的大小
+返回值：
+成功：开辟好的空间的首地址
+失败：<span class="token constant">NULL</span>
+</code></pre><p><mark>注意：</mark></p>
+<p>1、在调用malloc之后，一定要判断一下，是否申请内存成功。</p>
+<p>2、如果多次malloc申请的内存，第1次和第2次申请的内存不一定是连续的。</p>
+<p>3、使用malloc开辟空间需要保存开辟好的空间的首地址，但是由于不确定空间用于做什么，所以本身返回值类型为void *，所以在调用函数时根据接收者的类型对其进行强制类型转换。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+ 
+<span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">//char ch[100] = "hello world";</span>
+ 
+    <span class="token comment">//静态全局区的空间只要开辟好，除非程序结束，否则不会释放，所以</span>
+    <span class="token comment">//如果是临时使用，不建议使用静态全局区的空间</span>
+    <span class="token comment">//static char ch[100] = "hello world";</span>
+ 
+    <span class="token comment">//堆区开辟空间，手动申请手动释放，更加灵活</span>
+    <span class="token comment">//使用malloc函数的时候一般要进行强转</span>
+    <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>str <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span> <span class="token operator">*</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'h'</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'e'</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'l'</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'l'</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'o'</span><span class="token punctuation">;</span>
+    str<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'\0'</span><span class="token punctuation">;</span>
+ 
+    <span class="token keyword keyword-return">return</span> str<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> argc<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+    p <span class="token operator">=</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"p = %s\n"</span><span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+    <span class="token comment">//使用free函数释放空间</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//防止野指针</span>
+    p <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+ 
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="free">free </h4>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token function">free</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">)</span>
+功能：释放堆区的空间
+参数：
+ptr：开辟后使用完毕的堆区的空间的首地址
+返回值：
+无
+</code></pre><p><mark>注意：</mark></p>
+<p>free函数只能释放堆区的空间，其他区域的空间无法使用free</p>
+<p>free释放空间必须释放malloc或者calloc或者realloc的返回值对应的空间，不能说只释放一部分</p>
+<p>free(p); 注意当free后，因为没有给p赋值，所以p还是指向原先动态申请的内存。但是内存已经不能再用了，p变成野指针了，所以一般为了放置野指针，会free完毕之后对p赋 为NULL。</p>
+<p>一块动态申请的内存只能free一次，不能多次free。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">//使用free函数释放空间</span>
+<span class="token function">ferr</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//防止野指针</span>
+p<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
+</code></pre><h4 id="calloc">calloc </h4>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token operator">*</span> <span class="token function">calloc</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> nmemb<span class="token punctuation">,</span><span class="token class-name">size_t</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+功能：在堆区申请指定大小的空间
+参数：
+nmemb：要申请的空间的块数
+size：每块的字节数
+返回值：
+成功：申请空间的首地址
+失败：<span class="token constant">NULL</span>
+</code></pre><p><mark>注意：</mark></p>
+<p>malloc和calloc函数都是用来申请内存的。</p>
+<p><mark>区别</mark>：</p>
+<ol>
+<li>
+<p>函数的名字不一样</p>
+</li>
+<li>
+<p>参数的个数不一样</p>
+</li>
+<li>
+<p>malloc申请的内存，内存中存放的内容是随机的，不确定的， 而calloc函数申请的内存中的内容为0</p>
+</li>
+</ol>
+<p>例如：</p>
+<p>char *p=(char *)calloc(3,100);</p>
+<p>在堆中申请了3块，每块大小为100个字节，即300个字节连续的区域。</p>
+<h4 id="realloc">realloc </h4>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span><span class="token operator">*</span> <span class="token function">realloc</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span> <span class="token operator">*</span>s<span class="token punctuation">,</span><span class="token keyword keyword-unsigned">unsigned</span> <span class="token keyword keyword-int">int</span> newsize<span class="token punctuation">)</span><span class="token punctuation">;</span>
+功能：在原本申请好的堆区空间的基础上重新申请内存，新的空间大小为函数的第二个参数
+如果原本申请好的空间的后面不足以增加指定的大小，系统会重新找一个足够大的位
+置开辟指定的空间，然后将原本空间中的数据拷贝过来，然后释放原本的空间
+如果newsize比原先的内存小，则会释放原先内存的后面的存储空间，
+只留前面的newsize个字节
+参数：
+s：原本开辟好的空间的首地址
+newsize：重新开辟的空间的大小
+返回值：
+新的空间的首地址
+</code></pre><p>增加空间：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+<span class="token comment">//想在100个字节后面追加50个字节</span>
+p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">realloc</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span><span class="token number">150</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//p指向的内存的新的大小为150个字节</span>
+</code></pre><p>减少空间：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+<span class="token number">2</span> p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token number">3</span> 
+<span class="token comment">//想重新申请内存,新的大小为50个字节</span>
+p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">realloc</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//p指向的内存的新的大小为50个字节,100个字节的后50个字</span>
+节的存储空间就被释放了
+</code></pre><p><mark>注意:malloc calloc relloc 动态申请的内存，只有在free或程序结束的时候才释放。</mark></p>
+<h3 id="内存泄漏">内存泄漏 </h3>
+<p>内存泄露的概念：<br>
+申请的内存，首地址丢了，找不了，再也没法使用了，也没法释放了，这块内存就被泄露了。<br>
+内存泄漏案例</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+	p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//接下来，可以用p指向的内存了</span>
+ 
+	p<span class="token operator">=</span><span class="token string">"hello world"</span><span class="token punctuation">;</span><span class="token comment">//p指向别的地方了，保存字符串常量的首地址</span>
+
+<span class="token comment">//从此以后，再也找不到你申请的100个字节了。则动态申请的100个字节就被泄露了</span>
+
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+	<span class="token keyword keyword-void">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+	p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//接下来，可以用p指向的内存了</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token comment">//每调用一次fun泄露100个字节</span>
+	<span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p>解决方式</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-void">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+	p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//接下来，可以用p指向的内存了</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token function">free</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ 
+ <span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+ <span class="token keyword keyword-char">char</span> <span class="token operator">*</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+	p<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//接下来，可以用p指向的内存了</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+	<span class="token keyword keyword-return">return</span> p<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ 
+ <span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span> <span class="token operator">*</span>q<span class="token punctuation">;</span>
+	q<span class="token operator">=</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//可以通过q使用 ，动态申请的100个字节的内存了</span>
+	<span class="token comment">//记得释放</span>
+	<span class="token function">free</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//防止野指针</span>
+	q <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p>总结：申请的内存，一定不要把首地址给丢了，在不用的时候一定要释放内存。</p>
+
       </div>
       
       
