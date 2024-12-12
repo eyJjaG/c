@@ -92,7 +92,55 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
     <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre><h2 id="c语言文件操作">C语言文件操作 </h2>
-<h3 id="fopen">fopen </h3>
+<h3 id="什么是文件">什么是文件 </h3>
+<p>存放在磁盘上的文件就是文件</p>
+<p>但是在程序设计中我们一般将文件分为两类：程序文件和数据文件（按文件的功能分类）。</p>
+<p>1.程序文件<br>
+包括源程序文件（后缀为.c），目标文件（Windows环境后缀为.obj），可执行文件（Windows环境后缀为.exe）。</p>
+<p>2.数据文件<br>
+文件的内容不一定是程序，而是程序运行时读写的数据，比如程序运行需要从中读取数据的文件，或者输出内容的文件。</p>
+<p>在没有文件操作的C语言终端程序中，数据的输入和输出都是以终端为对象的，即从终端的键盘输入数据，运行结果在屏幕上显示。但是在有文件操作的程序中，我们可以将终端的键盘输入的数据保存在磁盘中，或者将磁盘中的文件数据都取到程序内存中使用。</p>
+<h3 id="文件名">文件名 </h3>
+<p>一个文件需要有唯一的文件标识，以便用户的识别和引用。</p>
+<p>为了方便起见文件标识常被称为文件名。</p>
+<p>文件名包含三个部分：文件路径+文件名主干+文件后缀</p>
+<p>例如：D:\study\编程\C语言\学习\文件操作\test.c</p>
+<blockquote>
+<p>\之前的内容都是表示文件所在的路径，比如此test.c文件在D盘的study目录下的：编程目录下的：C语言目录下的：学习目录下的：文件操作目录下的位置。</p>
+</blockquote>
+<blockquote>
+<p>此文件的文件名主干是test</p>
+</blockquote>
+<blockquote>
+<p>此文件的文件名后缀是c</p>
+</blockquote>
+<h3 id="文件的打开和关闭">文件的打开和关闭 </h3>
+<p>在我们读写文件时需要先建立一个文件信息区来记录所要使用文件的各种数据（如文件的名字、文件状态及文件所在的当前位置等），而在C语言中记录这些状态的类型为文件指针：</p>
+<h4 id="1文件指针">1.文件指针 </h4>
+<p>缓冲文件系统中，关键的概念是"“文件类型指针"，简称“文件指针"。</p>
+<p>每个被使用的文件都在内存中开辟了一个相应的文件信息区，用来存放文件的相关信息(如文件的名字，文件状态及文件当前的位置等)。这些信息是保存在一个结构体变量中的。该结构体类型是有系统声明的，取名FILE。</p>
+<p>下图可以很直观的理解FILE类型的结构体和文件读取时的关系：<br>
+<img src="image.png" alt="alt text"><br>
+在VS2013中结构体FILE是被这样定义的：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">_iobuf</span> <span class="token punctuation">{</span>
+	<span class="token keyword keyword-char">char</span><span class="token operator">*</span> ptr<span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> _cnt<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span><span class="token operator">*</span> _base<span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> _flag<span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> _file<span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> _charbuf<span class="token punctuation">;</span>
+	<span class="token keyword keyword-int">int</span> _bufsiz<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span><span class="token operator">*</span> _tmpfname<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-typedef">typedef</span> <span class="token keyword keyword-struct">struct</span> <span class="token class-name">_iobuf</span> FILE<span class="token punctuation">;</span>
+</code></pre><p>一般都是通过一个FILE的指针来维护这个FILE结构的变量（通过FILE类型的指针找到文件信息区的起始地址），这样使用起来更加方便。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code>FILE<span class="token operator">*</span> pf<span class="token punctuation">;</span><span class="token comment">//文件指针变量</span>
+</code></pre><h4 id="2文件操作打开和关闭">2.文件操作——打开和关闭 </h4>
+<p>在弄清楚文件操作的关联原理后，我们来进行文件打开和关闭的实操：</p>
+<p>文件在读写之前应该先打开文件，在使用结束之后应该关闭文件。</p>
+<p>ANSIC规定使用fopen函数来打开文件，fclose来关闭文件。</p>
+<p>在编写程序的时候，在打开文件的同时，fopen函数都会返回一个FILE*的指针变量指向该文件，也相当于建立了指针和文件的关系。</p>
+<h5 id="fopen">fopen </h5>
 <blockquote>
 <p>该函数的返回值是一个FILE类型的指针，在文件成功打开后返回此文件信息区的起始地址，打开失败则返回一个NULL（空指针），所以使用fopen时需要一个FILE类型的指针来接收其返回值。</p>
 </blockquote>
@@ -119,7 +167,7 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 <li><code>+</code> 代表更新模式，即同时允许读取和写入。<br>
 <mark>注：当使用“w”，“wb”，“w+”，“wb+”打开文件时会清除文件原本存储的数据。</mark></li>
 </ul>
-<h3 id="fclose">fclose </h3>
+<h5 id="fclose">fclose </h5>
 <blockquote>
 <p>该函数的返回值是int类型的：如果关闭成功就返回0值，否则返回EOF（-1）值。</p>
 </blockquote>
@@ -144,7 +192,7 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre><p>==在关闭文件之后应该将原来的文件指针置为空(NULL)，避免野指针的产生。</p>
-<h3 id="fscanf">fscanf </h3>
+<h5 id="fscanf">fscanf </h5>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
 <span class="token punctuation">{</span>
 	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
