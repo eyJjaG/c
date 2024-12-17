@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>c语言笔记</title>
+      <title>c</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -141,23 +141,81 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 <p>ANSIC规定使用fopen函数来打开文件，fclose来关闭文件。</p>
 <p>在编写程序的时候，在打开文件的同时，fopen函数都会返回一个FILE*的指针变量指向该文件，也相当于建立了指针和文件的关系。</p>
 <h5 id="fopen">fopen </h5>
+<p>FILE * fopen(const char *filename,const char *mode);</p>
 <blockquote>
 <p>该函数的返回值是一个FILE类型的指针，在文件成功打开后返回此文件信息区的起始地址，打开失败则返回一个NULL（空指针），所以使用fopen时需要一个FILE类型的指针来接收其返回值。</p>
 </blockquote>
-<ul>
-<li><code>"wb"</code>（只写）：以二进制格式打开一个文件用于写入。如果文件已存在，则覆盖它；如果文件不存在，则创建新文件。</li>
-<li><code>"r"</code>（只读）：以只读模式打开一个文件。文件必须存在，否则会抛出异常。</li>
-<li><code>"rb"</code>（只读）：以二进制格式打开一个文件用于读取。文件必须存在。</li>
-<li><code>"a"</code>（追加）：以追加模式打开一个文件用于写入。如果文件已存在，写入的数据会被追加到文件末尾；如果文件不存在，则创建新文件。</li>
-<li><code>"w"</code>（只写）：以写入模式打开一个文件。如果文件已存在，则覆盖它；如果文件不存在，则创建新文件。</li>
-<li><code>"ab"</code>（追加）：以二进制格式打开一个文件用于追加。如果文件已存在，写入的数据会被追加到文件末尾；如果文件不存在，则创建新文件。</li>
-<li><code>"r+"</code>（读写）：以读写模式打开一个文件。文件必须存在。</li>
-<li><code>"w+"</code>（读写）：以读写模式打开一个文件。如果文件已存在，则覆盖它；如果文件不存在，则创建新文件。</li>
-<li><code>"a+"</code>（读写）：以读写模式打开一个文件用于追加。如果文件已存在，写入的数据会被追加到文件末尾；如果文件不存在，则创建新文件。</li>
-<li><code>"rb+"</code>（读写）：以二进制格式打开一个文件用于读写。文件必须存在。</li>
-<li><code>"wb+"</code>（读写）：以二进制格式打开一个文件用于读写。如果文件已存在，则覆盖它；如果文件不存在，则创建新文件。</li>
-<li><code>"ab+"</code>（读写）：以二进制格式打开一个文件用于追加。如果文件已存在，写入的数据会被追加到文件末尾；如果文件不存在，则创建新文件。</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>文件使用方式</th>
+<th>含义</th>
+<th>如果指定文件不存在</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"r" (只读)</td>
+<td>为了输入数据，打开一个已经存在的文本文件</td>
+<td>出错</td>
+</tr>
+<tr>
+<td>"w" (只写)</td>
+<td>为了输出数据，打开一个文本文件</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"a" (追加)</td>
+<td>向文本文件尾添加数据</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"rb" (只读)</td>
+<td>为了输入数据，打开一个二进制文件</td>
+<td>出错</td>
+</tr>
+<tr>
+<td>"wb" (只写)</td>
+<td>为了输出数据，打开一个二进制文件</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"ab" (追加)</td>
+<td>向一个二进制文件尾添加数据</td>
+<td>出错</td>
+</tr>
+<tr>
+<td>"r+" (读写)</td>
+<td>为了读和写，打开一个文本文件</td>
+<td>出错</td>
+</tr>
+<tr>
+<td>"w+" (读写)</td>
+<td>为了读和写，建一个新的文件</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"a+" (读写)</td>
+<td>打开一个文件，在文件尾进行读写</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"rb+" (读写)</td>
+<td>为了读和写打开一个二进制文件</td>
+<td>出错</td>
+</tr>
+<tr>
+<td>"wb+" (读写)</td>
+<td>为了读和写，新建一个新的二进制文件</td>
+<td>建立一个新的文件</td>
+</tr>
+<tr>
+<td>"ab+" (读写)</td>
+<td>打开一个二进制文件，在文件尾进行读和写</td>
+<td>建立一个新的文件</td>
+</tr>
+</tbody>
+</table>
 <p>这些模式中的每个字母都有特定的含义：</p>
 <ul>
 <li><code>r</code> 代表读取（read）。</li>
@@ -165,12 +223,24 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 <li><code>a</code> 代表追加（append）。</li>
 <li><code>b</code> 代表二进制模式（binary），用于处理非文本文件。</li>
 <li><code>+</code> 代表更新模式，即同时允许读取和写入。<br>
-<mark>注：当使用“w”，“wb”，“w+”，“wb+”打开文件时会清除文件原本存储的数据。</mark></li>
+<mark>注：当使用“w”，“wb”，“w+”，“wb+”打开文件时会清除文件原本存储的数据。</mark><br>
+例如：</li>
 </ul>
-<h5 id="fclose">fclose </h5>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">//打开</span>
+FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span><span class="token string">"w"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//判断是否打开成功</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h5 id="fclose">fclose </h5>
+<p>int fclose(FILE <em>stream);<br>
+可以看到该fclose函数只有一个FILE</em>类型的参数stream：</p>
 <blockquote>
-<p>该函数的返回值是int类型的：如果关闭成功就返回0值，否则返回EOF（-1）值。</p>
+<p>stream:传入将要关闭的文件的文件指针。</p>
 </blockquote>
+<p>该函数的返回值是int类型的：如果关闭成功就返回0值，否则返回EOF（-1）值。</p>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
 	<span class="token comment">//打开</span>
@@ -192,7 +262,199 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre><p>==在关闭文件之后应该将原来的文件指针置为空(NULL)，避免野指针的产生。</p>
-<h5 id="fscanf">fscanf </h5>
+<h3 id="文件的读写">文件的读写 </h3>
+<p>文件打开之后是要进行一系列读写操作的，下面来详细讲解一系列文件的读写操作：<br>
+读写文件时我们有两种读取方式：顺序读取和随机读取。</p>
+<h4 id="1顺序读写">1.顺序读写 </h4>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>函数名</th>
+<th>适用于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字符输入函数</td>
+<td>fgetc</td>
+<td>所有输入流</td>
+</tr>
+<tr>
+<td>字符输出函数</td>
+<td>fputc</td>
+<td>所有输出流</td>
+</tr>
+<tr>
+<td>文本行输入函数</td>
+<td>fgets</td>
+<td>所有输入流</td>
+</tr>
+<tr>
+<td>文本行输出函数</td>
+<td>fputs</td>
+<td>所有输出流</td>
+</tr>
+<tr>
+<td>格式化输入函数</td>
+<td>fscanf</td>
+<td>所有输入流</td>
+</tr>
+<tr>
+<td>格式化输出函数</td>
+<td>fprintf</td>
+<td>所有输出流</td>
+</tr>
+<tr>
+<td>二进制输入</td>
+<td>fread</td>
+<td>文件</td>
+</tr>
+<tr>
+<td>二进制输出</td>
+<td>fwrite</td>
+<td>文件</td>
+</tr>
+</tbody>
+</table>
+<h5 id="fputc">fputc </h5>
+<p>int fputc(int character,FILE *stream);</p>
+<p>该函数有int类型的character和FILE*类型的stream两个参数：</p>
+<ul>
+<li>character:接收所要存入的字符的ASCII值</li>
+<li>stream:接收指向所要存入文件的指针</li>
+</ul>
+<p>当该函数成功运行时返回所存入字符的ASCII码值，否则返回EOF（-1）值。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token comment">//打开</span>
+	FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//判断是否打开成功</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//写入数据</span>
+	<span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token char">'a'</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">26</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+        <span class="token function">fputc</span><span class="token punctuation">(</span><span class="token char">'a'</span> <span class="token operator">+</span> i<span class="token punctuation">,</span> pf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//关闭</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fclose</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token comment">//关闭失败</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fclose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h5 id="fgetc">fgetc </h5>
+<p>int fgetc(FILE *stream);</p>
+<p>该函数有一个FILE*类型的参数stream：</p>
+<ul>
+<li>stream:接收指向所要读取文件的指针</li>
+</ul>
+<p>该函数成功读入数据时会返回读取字符的ASCII值，反之则会返回EOF（-1）值。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token comment">//打开</span>
+	FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//此时读取文件要用"r"的方式打开</span>
+	<span class="token comment">//判断是否打开成功</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//读入数据</span>
+	<span class="token keyword keyword-int">int</span> i<span class="token punctuation">;</span>
+	<span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token function">fgetc</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%c "</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//关闭</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fclose</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token comment">//关闭失败</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fclose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><mark>注：在程序运行时每次使用fgetc函数读入数据时文件指针在向后移动使其读取的数据不会重复。</mark></p>
+<h5 id="fputc-1">fputc </h5>
+<p>int fputc(const char *str,FILE *stream);</p>
+<blockquote>
+<p>向文件输入单个字符数据<br>
+该函数有int类型的character和FILE*类型的stream两个参数：</p>
+</blockquote>
+<p>character:接收所要存入的字符的ASCII值</p>
+<p>stream:接收指向所要存入文件的指针</p>
+<p>当该函数成功运行时返回所存入字符的ASCII码值，否则返回EOF（-1）值。</p>
+<h5 id="fgetc-1">fgetc </h5>
+<p>int fgetc(FILE *stream);</p>
+<blockquote>
+<p>该函数一般被用来读取文件中单个字符数据<br>
+该函数成功读入数据时会返回读取字符的ASCII值，反之则会返回EOF（-1）值</p>
+</blockquote>
+<h5 id="fputs">fputs </h5>
+<p>int fputs(const char *str,FILE *stream);</p>
+<blockquote>
+<p>直接向文件写入一个字符串<br>
+该函数成功运行返回一个非负值，否则返回EOF（-1）值</p>
+</blockquote>
+<h5 id="fgets">fgets </h5>
+<p>char *fgets(char *str,int num,FILE *stream);</p>
+<blockquote>
+<p>该函数只能读取一行的数据<br>
+str:接收指向储存读出数据的字符串指针</p>
+</blockquote>
+<p>num:接收要复制到 str 中的最大字符数（包括终止空字符）</p>
+<p>stream:接收指向所要读取文件的指针<br>
+成功后，该函数返回 str的头指针<br>
+如果在尝试读取字符时遇到文件结尾，则会设置 eof 指示符 。如果在读取任何字符之前发生这种情况，则返回的指针为空指针（并且 str 的内容保持不变）。<br>
+如果发生读取错误，则设置错误指示器 （ferror） 并返回空指针（但 str 所指向的内容可能已更改）。</p>
+<h5 id="fprintf">fprintf </h5>
+<p>int fprintf(FILE *stream,const char *format,...);</p>
+<blockquote>
+<p>向文件输出任意数据<br>
+该函数成功运行时会返回所输出的字节总数，否则返回一个负数并报错</p>
+</blockquote>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> sex<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span> L <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">20</span><span class="token punctuation">,</span><span class="token string">"张三"</span><span class="token punctuation">,</span><span class="token string">"男"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token comment">//打开</span>
+	FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//判断是否打开成功</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//输入数据</span>
+	<span class="token function">fprintf</span><span class="token punctuation">(</span>pf<span class="token punctuation">,</span> <span class="token string">"%d %s %s"</span><span class="token punctuation">,</span> L<span class="token punctuation">.</span>age<span class="token punctuation">,</span> L<span class="token punctuation">.</span>name<span class="token punctuation">,</span> L<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//关闭</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fclose</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token comment">//关闭失败</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fclose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h5 id="fscanf">fscanf </h5>
+<p>int fscanf(FILE *stream,const char *format,...);<br>
+运行成功后，该函数返回所读取数据的个数（甚至为零），如果在读取时发生读取错误或到达文件末尾，则会设置正确的指示器（feof 或 ferror）。而且，如果在成功读取任何数据之前发生任何一种情况，则返回 EOF。</p>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
 <span class="token punctuation">{</span>
 	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
@@ -223,8 +485,144 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
 	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code></pre><h2 id="stringh中的常用函数">&lt;string.h&gt;中的常用函数 </h2>
-<p>strlen</p>
+</code></pre><h5 id="fwrite">fwrite </h5>
+<p>size_t fwrite(const void *ptr,size_t size,size_t count,FILE *stream);</p>
+<blockquote>
+<p>直接将计算机内存中所存储的二进制数据输出到文件中（此时此文件就是一个二进制文件）<br>
+ptr:接收指向所要输入数据的指针或地址</p>
+</blockquote>
+<p>size:接收输出的每个数据的大小（以字节为单位）。</p>
+<p>count:所要输出数据的个数</p>
+<p>stream:接收指向所要输出文件的指针</p>
+<p>成功运行返回输出的数据总数，如果此数字与 count 参数不同，则写入错误会阻止函数完成。在这种情况下，将为流设置误差指示器（ferror），如果大小或计数为零，则该函数返回零，并且错误指示器保持不变。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> sex<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span> L <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">20</span><span class="token punctuation">,</span><span class="token string">"李四"</span><span class="token punctuation">,</span><span class="token string">"女"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token comment">//打开</span>
+	FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//二进制输出时用wb</span>
+	<span class="token comment">//判断是否打开成功</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//输出数据</span>
+	<span class="token function">fwrite</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>L<span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> pf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//关闭</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fclose</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token comment">//关闭失败</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fclose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h5 id="fread">fread </h5>
+<p>size_t fread(void *ptr,size_t size,size_t count,FILE *stream);</p>
+<blockquote>
+<p>二进制的方式读取<br>
+ptr:传入指向将要存储数据的变量的指针或地址</p>
+</blockquote>
+<p>size:传入每次从文件读取数据的大小（以字节为单位）</p>
+<p>count:传入将要读取的次数</p>
+<p>stream:接收指向所要输入文件的指针</p>
+<p>该函数运行成功后返回读取数据的次数，否则返回0值。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> sex<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span> s<span class="token punctuation">;</span>
+	<span class="token comment">//打开</span>
+	FILE<span class="token operator">*</span> pf <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"text.txt"</span><span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//二进制输出时用rb</span>
+	<span class="token comment">//判断是否打开成功</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pf <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fopen"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//输入数据</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fread</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> pf<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d %s %s"</span><span class="token punctuation">,</span> s<span class="token punctuation">.</span>age<span class="token punctuation">,</span> s<span class="token punctuation">.</span>name<span class="token punctuation">,</span> s<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//关闭</span>
+	<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">fclose</span><span class="token punctuation">(</span>pf<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">EOF</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token comment">//关闭失败</span>
+		<span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"fclose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword keyword-return">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	pf <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p>补充：<br>
+对任何一个c程序，只要运行起来，就默认打开3个流:</p>
+<pre class="language-text">            stdin——标准输入流——键盘
+
+            stdout——标准输出流——屏幕
+
+            stderr ——标准错误流——屏幕
+
+    也就是在C程序运行时，系统自动打开三个FILE*类型的流：stdin（接收键盘数据），stdout（接收所要向屏幕输出的数据），stderr（接收所要向屏幕输出的数据）。
+</pre>
+<p>如：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> ch <span class="token operator">=</span> <span class="token function">fgetc</span><span class="token punctuation">(</span><span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fputc</span><span class="token punctuation">(</span>ch<span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> a<span class="token punctuation">;</span>
+	<span class="token function">fscanf</span><span class="token punctuation">(</span><span class="token constant">stdin</span><span class="token punctuation">,</span> <span class="token string">"%d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stdout</span><span class="token punctuation">,</span> <span class="token string">"%d"</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+fscanf（<span class="token constant">stdin</span>，···）等价于scanf（···）<span class="token punctuation">,</span>fprintf（<span class="token constant">stdout</span><span class="token punctuation">,</span>···）等价于printf（···）
+</code></pre><h5 id="sprintf与sscanf">sprintf与sscanf </h5>
+<p>int sprintf(cahr *str,const char *format,...);<br>
+int sscanf(const char *s,const char *format,...);</p>
+<ul>
+<li>对于sprintf函数它可以将各种数据以各种格式（如%d，%s，%c等等）转换为字符串类型输入到char*类型的str参数中。</li>
+<li>对于sscanf函数它可以将字符串类型的str参数的数据以各种格式（如%d，%s，%c等等）输出到各变量中。</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-int">int</span> age<span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-float">float</span> point<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span> l <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">15</span><span class="token punctuation">,</span><span class="token string">"lisi"</span><span class="token punctuation">,</span><span class="token number">88.9f</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-char">char</span> arr<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-struct">struct</span> <span class="token class-name">S</span> j <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	<span class="token comment">//将各类型数据转换为字符串</span>
+	<span class="token function">sprintf</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> <span class="token string">"%d %s %.1f"</span><span class="token punctuation">,</span> l<span class="token punctuation">.</span>age<span class="token punctuation">,</span> l<span class="token punctuation">.</span>name<span class="token punctuation">,</span> l<span class="token punctuation">.</span>point<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//将字符串数据转换为各种类型</span>
+	<span class="token function">sscanf</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> <span class="token string">"%d %s %f"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token punctuation">(</span>j<span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">,</span> j<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token punctuation">(</span>j<span class="token punctuation">.</span>point<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d %s %.1f"</span><span class="token punctuation">,</span> j<span class="token punctuation">.</span>age<span class="token punctuation">,</span> j<span class="token punctuation">.</span>name<span class="token punctuation">,</span> j<span class="token punctuation">.</span>point<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="2随机读写">2.随机读写 </h4>
+<h5 id="文件指针的偏移">文件指针的偏移 </h5>
+<p>getc函数每读完一次数据时下一次再重新读取时不会从文件开始的位置去读，而是从上一次读取结束的地方再次读取，这实际是FILE*类型的指针的偏移</p>
+<h2 id="stringh中的常用函数">&lt;string.h&gt;中的常用函数 </h2>
+<h3 id="strlen">strlen </h3>
 <ul>
 <li><mark>功能：strlen()函数返回字符串的字节长度，不包括末尾的空字符\0。</mark></li>
 </ul>
@@ -236,19 +634,19 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-char">char</span> s<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
 <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 5</span>
 <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 50</span>
-</code></pre><p>strcpy()</p>
+</code></pre><h3 id="strcpy">strcpy() </h3>
 <ul>
 <li><mark>功能：用于将源字符串的内容复制到目标字符串，相当于字符串赋值，两者地址均未改变。</mark></li>
 </ul>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code>原型<span class="token operator">:</span>
 <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token function">strcpy</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> dest<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> source<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre><p>strncpy()</p>
+</code></pre><h3 id="strncpy">strncpy() </h3>
 <ul>
 <li>功能：strncpy()跟strcpy()的用法完全一样，只是多了第3个参数，用来指定复制的最大字符数，防止溢出目标字符串变量的边界。</li>
 </ul>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code>原型<span class="token operator">:</span>
 <span class="token keyword keyword-char">char</span><span class="token operator">*</span> <span class="token function">strncpy</span><span class="token punctuation">(</span><span class="token keyword keyword-char">char</span> <span class="token operator">*</span>dest<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>src<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token class-name">size_t</span> n<span class="token punctuation">)</span><span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">;</span>
-</code></pre><p><strong>strcmp()</strong></p>
+</code></pre><h3 id="strcmp">strcmp() </h3>
 <ul>
 <li>比较两个字符串的大小，按ASCII值大小相比较</li>
 </ul>
@@ -256,12 +654,12 @@ srand((unsigned int)time(NULL))或srand(time(0));<br><br>
 str1 <span class="token operator">&gt;</span> str2 值为<span class="token number">1</span>
 str1 <span class="token operator">&lt;</span> str2 值为<span class="token operator">-</span><span class="token number">1</span>
 str1 <span class="token operator">=</span> str2 值为<span class="token number">0</span>
-</code></pre><p><strong>stricmp</strong></p>
+</code></pre><h3 id="stricmp">stricmp </h3>
 <ul>
 <li>比较两个字符串忽略大小写后的大小</li>
 </ul>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code>返回值同<span class="token function">strcmp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre><p>strcat()</p>
+</code></pre><h3 id="strcat">strcat() </h3>
 <ul>
 <li>功能：strcat()函数用于连接字符串。即将源字符串s2拼接在目标字符串s1后面。</li>
 </ul>
@@ -270,19 +668,19 @@ str1 <span class="token operator">=</span> str2 值为<span class="token number"
 </code></pre><p><strong>注意：</strong><br>
 要确保两字符串长度之和小于源字符串的容量长度，否则可能会导致缓冲区溢出。</p>
 <pre data-role="codeBlock" data-info="c" class="language-c c"><code>e<span class="token punctuation">.</span>g<span class="token punctuation">.</span> <span class="token function">strcat</span><span class="token punctuation">(</span>str1<span class="token punctuation">,</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre><p>strchr()</p>
+</code></pre><h3 id="strchr">strchr() </h3>
 <ul>
 <li>查询某个字符在某字符串中首次出现的位数</li>
 </ul>
-<p>strrchr()</p>
+<h3 id="strrchr">strrchr() </h3>
 <ul>
 <li>查询某个字符在某字符串中首次出现的位数</li>
 </ul>
-<p>strupr()</p>
+<h3 id="strupr">strupr() </h3>
 <ul>
 <li>将字符串中的小写字母变成大字母</li>
 </ul>
-<p>strnset()</p>
+<h3 id="strnset">strnset() </h3>
 <ul>
 <li>将一个字符串前n个字符都变为指定字符</li>
 </ul>
@@ -511,7 +909,7 @@ str1 <span class="token operator">=</span> str2 值为<span class="token number"
 参数：
 size：要开辟的空间的大小
 返回值：
-成功：开辟好的空间的首地址
+<span class="token operator">==</span>成功：开辟好的空间的首地址<span class="token operator">==</span>
 失败：<span class="token constant">NULL</span>
 </code></pre><p><mark>注意：</mark></p>
 <p>1、在调用malloc之后，一定要判断一下，是否申请内存成功。</p>
