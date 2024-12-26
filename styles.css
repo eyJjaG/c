@@ -1,0 +1,54 @@
+body {
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f9;
+}
+
+#loginForm {
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+#loginForm h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+#loginForm input {
+  width: calc(100% - 2rem);
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#loginForm button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #1e90ff; /* 更改按钮颜色 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#loginForm button:hover {
+  background-color: #1c86ee;
+}
+
+#message {
+  color: red;
+  margin-top: 1rem;
+  font-size: 14px;
+}
